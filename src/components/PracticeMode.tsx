@@ -19,7 +19,11 @@ interface Problem {
 const TOTAL_PROBLEMS = 10;
 const TIME_PER_PROBLEM = 60; // seconds
 
-export default function PracticeMode() {
+interface PracticeModeProps {
+  mode?: string;
+}
+
+export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [currentProblemIndex, setCurrentProblemIndex] = useState(0);
   const [userAnswer, setUserAnswer] = useState('');
@@ -32,18 +36,51 @@ export default function PracticeMode() {
   const generateProblems = useCallback((): Problem[] => {
     const newProblems: Problem[] = [];
     for (let i = 0; i < TOTAL_PROBLEMS; i++) {
-      const dan = Math.floor(Math.random() * 8) + 2; // 2-9
-      const multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+      let dan: number, multiplier: number, answer: number;
+
+      switch (mode) {
+        case 'plus':
+          dan = Math.floor(Math.random() * 99) + 1; // 1-99
+          multiplier = Math.floor(Math.random() * 99) + 1; // 1-99
+          answer = dan + multiplier;
+          break;
+
+        case 'minus':
+          dan = Math.floor(Math.random() * 99) + 1; // 1-99 (minuend)
+          multiplier = Math.floor(Math.random() * dan) + 1; // 1 to dan (subtrahend, ensures positive result)
+          answer = dan - multiplier;
+          break;
+
+        case 'divide':
+          multiplier = Math.floor(Math.random() * 8) + 2; // 2-9 (divisor)
+          answer = Math.floor(Math.random() * 9) + 1; // 1-9 (quotient)
+          dan = multiplier * answer; // dividend (ensures whole number division)
+          break;
+
+        case 'multiply-extended':
+          dan = Math.floor(Math.random() * 11) + 2; // 2-12
+          multiplier = Math.floor(Math.random() * 12) + 1; // 1-12
+          answer = dan * multiplier;
+          break;
+
+        case 'multiply':
+        default:
+          dan = Math.floor(Math.random() * 8) + 2; // 2-9
+          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          answer = dan * multiplier;
+          break;
+      }
+
       newProblems.push({
         id: i + 1,
         dan,
         multiplier,
-        answer: dan * multiplier,
+        answer,
         timeSpent: 0
       });
     }
     return newProblems;
-  }, []);
+  }, [mode]);
 
   const startPractice = () => {
     const newProblems = generateProblems();
@@ -159,10 +196,10 @@ export default function PracticeMode() {
                 <div className="text-lg">
                   <span className="font-semibold">#{problem.id}:</span>
                   <span className="ml-2">
-                    {problem.dan} × {problem.multiplier} = {problem.answer}
+                    {problem.dan} {mode === 'plus' ? '+' : mode === 'minus' ? '-' : mode === 'divide' ? '÷' : '×'} {problem.multiplier} = {problem.answer}
                   </span>
                   <span className="text-sm text-gray-500 ml-2">
-                    ({getKoreanNumber(problem.dan)} × {getKoreanNumber(problem.multiplier)})
+                    ({getKoreanNumber(problem.dan)} {mode === 'plus' ? '+' : mode === 'minus' ? '-' : mode === 'divide' ? '÷' : '×'} {getKoreanNumber(problem.multiplier)})
                   </span>
                 </div>
                 <div className="text-right">
@@ -207,6 +244,13 @@ export default function PracticeMode() {
         <div className="text-center mb-8">
           <div className="text-xl text-gray-600 mb-4">
             총 {TOTAL_PROBLEMS}문제, 각 문제당 {TIME_PER_PROBLEM}초
+          </div>
+          <div className="text-lg text-gray-500 mb-2">
+            {mode === 'plus' && '1~99 사이의 숫자 덧셈 연습'}
+            {mode === 'minus' && '뺄셈 연습 (큰 수에서 작은 수를 빼기)'}
+            {mode === 'divide' && '나눗셈 연습 (구구단 범위 내)'}
+            {mode === 'multiply-extended' && '확장 구구단 2단~12단 연습'}
+            {mode === 'multiply' && '구구단 2단~9단 연습'}
           </div>
           <div className="text-lg text-gray-500">
             시간 내에 답을 입력하세요!
@@ -255,13 +299,18 @@ export default function PracticeMode() {
       <div className="text-center mb-8">
         <div className="text-8xl font-bold mb-4">
           <span className="text-blue-600">{currentProblem.dan}</span>
-          <span className="text-gray-600 mx-6">×</span>
+          <span className="text-gray-600 mx-6">
+            {mode === 'plus' ? '+' : mode === 'minus' ? '-' : mode === 'divide' ? '÷' : '×'}
+          </span>
           <span className="text-green-600">{currentProblem.multiplier}</span>
           <span className="text-gray-600 mx-6">=</span>
           <span className="text-black">?</span>
         </div>
         <div className="text-2xl text-gray-700">
-          ({getKoreanNumber(currentProblem.dan)} × {getKoreanNumber(currentProblem.multiplier)} = ?)
+          {mode === 'plus' && `(${getKoreanNumber(currentProblem.dan)} + ${getKoreanNumber(currentProblem.multiplier)} = ?)`}
+          {mode === 'minus' && `(${getKoreanNumber(currentProblem.dan)} - ${getKoreanNumber(currentProblem.multiplier)} = ?)`}
+          {mode === 'divide' && `(${getKoreanNumber(currentProblem.dan)} ÷ ${getKoreanNumber(currentProblem.multiplier)} = ?)`}
+          {mode === 'multiply' && `(${getKoreanNumber(currentProblem.dan)} × ${getKoreanNumber(currentProblem.multiplier)} = ?)`}
         </div>
       </div>
 

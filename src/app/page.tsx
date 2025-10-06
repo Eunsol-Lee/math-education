@@ -14,14 +14,46 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Navigation */}
+        {/* Mode Selection */}
         <div className="text-center mb-8">
-          <Link
-            href="/practice"
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors inline-block"
-          >
-            🚀 연습 모드 시작 (Start Practice)
-          </Link>
+          <h2 className="text-2xl font-bold text-gray-700 mb-6">연습 모드 선택 (Choose Practice Mode)</h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-3xl mx-auto">
+            <Link
+              href="/practice?mode=multiply"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
+            >
+              <span className="text-2xl mb-1">✖️</span>
+              구구단<br/>(2-9)
+            </Link>
+            <Link
+              href="/practice?mode=multiply-extended"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
+            >
+              <span className="text-2xl mb-1">✖️✖️</span>
+              확장구구단<br/>(2-12)
+            </Link>
+            <Link
+              href="/practice?mode=plus"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
+            >
+              <span className="text-2xl mb-1">➕</span>
+              덧셈<br/>(Plus)
+            </Link>
+            <Link
+              href="/practice?mode=minus"
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
+            >
+              <span className="text-2xl mb-1">➖</span>
+              뺄셈<br/>(Minus)
+            </Link>
+            <Link
+              href="/practice?mode=divide"
+              className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
+            >
+              <span className="text-2xl mb-1">➗</span>
+              나눗셈<br/>(Divide)
+            </Link>
+          </div>
         </div>
 
         <main className="space-y-6">
