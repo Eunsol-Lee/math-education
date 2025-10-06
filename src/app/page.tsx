@@ -1,5 +1,5 @@
+import Link from 'next/link';
 import GugudanTable from '@/components/GugudanTable';
-import PracticeMode from '@/components/PracticeMode';
 
 export default function Home() {
   return (
@@ -14,10 +14,17 @@ export default function Home() {
           </p>
         </header>
 
-        <main className="space-y-6">
-          {/* Practice Mode */}
-          <PracticeMode />
+        {/* Navigation */}
+        <div className="text-center mb-8">
+          <Link
+            href="/practice"
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-xl transition-colors inline-block"
+          >
+            🚀 연습 모드 시작 (Start Practice)
+          </Link>
+        </div>
 
+        <main className="space-y-6">
           {/* Reference Tables */}
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-gray-700">구구단 표 (Reference Tables)</h2>
