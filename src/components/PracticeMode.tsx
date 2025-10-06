@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { getKoreanNumber } from '@/lib/korean-numbers';
 
@@ -27,6 +27,7 @@ export default function PracticeMode() {
   const [isActive, setIsActive] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [startTime, setStartTime] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const generateProblems = useCallback((): Problem[] => {
     const newProblems: Problem[] = [];
@@ -110,6 +111,13 @@ export default function PracticeMode() {
       if (interval) clearInterval(interval);
     };
   }, [isActive, timeLeft, showResults, submitAnswer]);
+
+  // Focus input when problem changes
+  useEffect(() => {
+    if (inputRef.current && isActive && !showResults) {
+      inputRef.current.focus();
+    }
+  }, [currentProblemIndex, isActive, showResults]);
 
   const currentProblem = problems[currentProblemIndex];
   const correctCount = problems.filter(p => p.isCorrect).length;
@@ -260,13 +268,13 @@ export default function PracticeMode() {
       {/* Answer Input */}
       <div className="text-center mb-6">
         <input
+          ref={inputRef}
           type="number"
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
           onKeyDown={handleKeyDown}
           className="text-5xl text-center w-40 p-4 border-4 border-gray-300 rounded-lg focus:border-blue-500 focus:outline-none"
           placeholder="답"
-          autoFocus
         />
       </div>
 
