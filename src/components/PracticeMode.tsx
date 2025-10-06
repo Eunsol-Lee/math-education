@@ -229,14 +229,14 @@ export default function PracticeMode() {
           <div className="text-2xl font-bold text-blue-600">
             {currentProblemIndex + 1} / {TOTAL_PROBLEMS}
           </div>
-          <div className={`text-xl font-bold ${timeLeft <= 3 ? 'text-red-600' : 'text-gray-600'}`}>
+          <div className={`text-xl font-bold ${timeLeft <= 3 ? 'text-red-600' : 'text-gray-800'}`}>
             ⏱️ {timeLeft}초
           </div>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full bg-gray-200 rounded-full h-4 mb-6">
+      <div className="w-full bg-gray-300 rounded-full h-4 mb-6">
         <div
           className="bg-green-500 h-4 rounded-full transition-all duration-300"
           style={{ width: `${((currentProblemIndex + 1) / TOTAL_PROBLEMS) * 100}%` }}
@@ -250,9 +250,9 @@ export default function PracticeMode() {
           <span className="text-gray-600 mx-6">×</span>
           <span className="text-green-600">{currentProblem.multiplier}</span>
           <span className="text-gray-600 mx-6">=</span>
-          <span className="text-gray-400">?</span>
+          <span className="text-black">?</span>
         </div>
-        <div className="text-2xl text-gray-500">
+        <div className="text-2xl text-gray-700">
           ({getKoreanNumber(currentProblem.dan)} × {getKoreanNumber(currentProblem.multiplier)} = ?)
         </div>
       </div>
