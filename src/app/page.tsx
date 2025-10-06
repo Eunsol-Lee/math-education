@@ -7,10 +7,10 @@ export default function Home() {
       <div className="max-w-4xl mx-auto">
         <header className="text-center py-8">
           <h1 className="text-5xl font-bold text-gray-800 mb-2">
-            구구단
+            계산왕 이은우
           </h1>
           <p className="text-xl text-gray-600">
-            Korean Multiplication Tables for Kids
+            Korean Math Practice for Kids
           </p>
         </header>
 
@@ -69,7 +69,7 @@ export default function Home() {
         </main>
 
         <footer className="text-center py-8 text-gray-500">
-          <p>Practice makes perfect! 🎓</p>
+          <p>계산왕 이은우와 함께 공부해요! 🎓</p>
         </footer>
       </div>
     </div>

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "구구단 - Korean Multiplication Tables",
-  description: "Learn Korean multiplication tables (구구단) with interactive practice for kids",
+  title: "계산왕 이은우 - Korean Math Practice",
+  description: "Learn Korean math with interactive practice games for kids - multiplication, addition, subtraction, and division!",
 };
 
 export default function RootLayout({

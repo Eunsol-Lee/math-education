@@ -164,7 +164,7 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
     return (
       <div className="bg-white rounded-lg shadow-md p-6 border-2 border-blue-200">
         <h2 className="text-4xl font-bold text-center mb-6 text-blue-600">
-          연습 결과 (Practice Results)
+          계산왕 이은우의 도전 결과!! (Math King Eunsol&apos;s Challenge Results!!)
         </h2>
 
         {/* Overall Score */}
@@ -238,7 +238,7 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
     return (
       <div className="bg-white rounded-lg shadow-md p-6 border-2 border-green-200">
         <h2 className="text-4xl font-bold text-center mb-6 text-green-600">
-          구구단 연습 모드
+          계산왕 이은우의 연습 도전!!
         </h2>
 
         <div className="text-center mb-8">
@@ -275,7 +275,7 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
     <div className="bg-white rounded-lg shadow-md p-6 border-2 border-green-200">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-green-600">
-          연습 모드 (Practice Mode)
+          계산왕 이은우의 도전!! (Math King Eunsol&apos;s Challenge!!)
         </h2>
         <div className="text-right">
           <div className="text-2xl font-bold text-blue-600">

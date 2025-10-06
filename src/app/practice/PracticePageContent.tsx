@@ -9,12 +9,12 @@ export default function PracticePageContent() {
 
   const getModeTitle = (mode: string) => {
     switch (mode) {
-      case 'multiply': return { korean: '구구단 연습', english: 'Multiplication Practice (2-9)' };
-      case 'multiply-extended': return { korean: '확장 구구단 연습', english: 'Extended Multiplication Practice (2-12)' };
-      case 'plus': return { korean: '덧셈 연습', english: 'Addition Practice (1-90 + 1-9)' };
-      case 'minus': return { korean: '뺄셈 연습', english: 'Subtraction Practice (10-99 - 1-9)' };
-      case 'divide': return { korean: '나눗셈 연습', english: 'Division Practice' };
-      default: return { korean: '구구단 연습', english: 'Multiplication Practice' };
+      case 'multiply': return { korean: '계산왕 이은우의 구구단 도전!!', english: 'Math King Eunsol&apos;s Multiplication Challenge!! (2-9)' };
+      case 'multiply-extended': return { korean: '계산왕 이은우의 확장 구구단 도전!!', english: 'Math King Eunsol&apos;s Extended Multiplication Challenge!! (2-12)' };
+      case 'plus': return { korean: '계산왕 이은우의 덧셈 도전!!', english: 'Math King Eunsol&apos;s Addition Challenge!! (1-90 + 1-9)' };
+      case 'minus': return { korean: '계산왕 이은우의 뺄셈 도전!!', english: 'Math King Eunsol&apos;s Subtraction Challenge!! (10-99 - 1-9)' };
+      case 'divide': return { korean: '계산왕 이은우의 나눗셈 도전!!', english: 'Math King Eunsol&apos;s Division Challenge!!' };
+      default: return { korean: '계산왕 이은우의 구구단 도전!!', english: 'Math King Eunsol&apos;s Multiplication Challenge!!' };
     }
   };
 
@@ -37,7 +37,7 @@ export default function PracticePageContent() {
         </main>
 
         <footer className="text-center py-8 text-gray-500">
-          <p>Keep practicing! 💪</p>
+          <p>계산왕 이은우와 함께 도전하세요! 💪</p>
         </footer>
       </div>
     </div>
