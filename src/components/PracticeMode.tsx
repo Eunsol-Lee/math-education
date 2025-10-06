@@ -40,14 +40,14 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
 
       switch (mode) {
         case 'plus':
-          dan = Math.floor(Math.random() * 99) + 1; // 1-99
-          multiplier = Math.floor(Math.random() * 99) + 1; // 1-99
+          dan = Math.floor(Math.random() * 90) + 1; // 1-90
+          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
           answer = dan + multiplier;
           break;
 
         case 'minus':
-          dan = Math.floor(Math.random() * 99) + 1; // 1-99 (minuend)
-          multiplier = Math.floor(Math.random() * dan) + 1; // 1 to dan (subtrahend, ensures positive result)
+          dan = Math.floor(Math.random() * 90) + 10; // 10-99 (ensures enough room for subtraction)
+          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9 (subtrahend)
           answer = dan - multiplier;
           break;
 
@@ -246,8 +246,8 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
             총 {TOTAL_PROBLEMS}문제, 각 문제당 {TIME_PER_PROBLEM}초
           </div>
           <div className="text-lg text-gray-500 mb-2">
-            {mode === 'plus' && '1~99 사이의 숫자 덧셈 연습'}
-            {mode === 'minus' && '뺄셈 연습 (큰 수에서 작은 수를 빼기)'}
+            {mode === 'plus' && '1~90 + 1~9 덧셈 연습'}
+            {mode === 'minus' && '10~99 - 1~9 뺄셈 연습'}
             {mode === 'divide' && '나눗셈 연습 (구구단 범위 내)'}
             {mode === 'multiply-extended' && '확장 구구단 2단~12단 연습'}
             {mode === 'multiply' && '구구단 2단~9단 연습'}

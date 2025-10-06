@@ -37,14 +37,14 @@ export default function Home() {
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
             >
               <span className="text-2xl mb-1">➕</span>
-              덧셈<br/>(Plus)
+              덧셈<br/>(1-90+1-9)
             </Link>
             <Link
               href="/practice?mode=minus"
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 px-3 rounded-lg text-sm transition-colors flex flex-col items-center"
             >
               <span className="text-2xl mb-1">➖</span>
-              뺄셈<br/>(Minus)
+              뺄셈<br/>(10-99-1-9)
             </Link>
             <Link
               href="/practice?mode=divide"

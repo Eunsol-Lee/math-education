@@ -11,8 +11,8 @@ export default function PracticePageContent() {
     switch (mode) {
       case 'multiply': return { korean: '구구단 연습', english: 'Multiplication Practice (2-9)' };
       case 'multiply-extended': return { korean: '확장 구구단 연습', english: 'Extended Multiplication Practice (2-12)' };
-      case 'plus': return { korean: '덧셈 연습', english: 'Addition Practice' };
-      case 'minus': return { korean: '뺄셈 연습', english: 'Subtraction Practice' };
+      case 'plus': return { korean: '덧셈 연습', english: 'Addition Practice (1-90 + 1-9)' };
+      case 'minus': return { korean: '뺄셈 연습', english: 'Subtraction Practice (10-99 - 1-9)' };
       case 'divide': return { korean: '나눗셈 연습', english: 'Division Practice' };
       default: return { korean: '구구단 연습', english: 'Multiplication Practice' };
     }
