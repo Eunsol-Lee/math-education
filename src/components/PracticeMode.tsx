@@ -33,6 +33,12 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
   const [startTime, setStartTime] = useState<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Selection states
+  const [showSelection, setShowSelection] = useState(true);
+  const [selectedDan, setSelectedDan] = useState<number | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<'sequential' | 'random'>('sequential');
+  const [selectedRange, setSelectedRange] = useState<{ min: number; max: number } | null>(null);
+
   const generateProblems = useCallback((): Problem[] => {
     const newProblems: Problem[] = [];
     for (let i = 0; i < TOTAL_PROBLEMS; i++) {
@@ -40,20 +46,35 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
 
       switch (mode) {
         case 'plus':
-          dan = Math.floor(Math.random() * 90) + 1; // 1-90
-          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          if (selectedRange) {
+            dan = Math.floor(Math.random() * (selectedRange.max - selectedRange.min + 1)) + selectedRange.min;
+            multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          } else {
+            dan = Math.floor(Math.random() * 90) + 1; // 1-90
+            multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          }
           answer = dan + multiplier;
           break;
 
         case 'minus':
-          dan = Math.floor(Math.random() * 90) + 10; // 10-99 (ensures enough room for subtraction)
-          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9 (subtrahend)
+          if (selectedRange) {
+            dan = Math.floor(Math.random() * (selectedRange.max - selectedRange.min + 1)) + selectedRange.min;
+            multiplier = Math.floor(Math.random() * 9) + 1; // 1-9 (subtrahend)
+          } else {
+            dan = Math.floor(Math.random() * 90) + 10; // 10-99 (ensures enough room for subtraction)
+            multiplier = Math.floor(Math.random() * 9) + 1; // 1-9 (subtrahend)
+          }
           answer = dan - multiplier;
           break;
 
         case 'divide':
-          multiplier = Math.floor(Math.random() * 8) + 2; // 2-9 (divisor)
-          answer = Math.floor(Math.random() * 9) + 1; // 1-9 (quotient)
+          if (selectedRange) {
+            multiplier = Math.floor(Math.random() * (selectedRange.max - selectedRange.min + 1)) + selectedRange.min; // divisor
+            answer = Math.floor(Math.random() * 9) + 1; // 1-9 (quotient)
+          } else {
+            multiplier = Math.floor(Math.random() * 8) + 2; // 2-9 (divisor)
+            answer = Math.floor(Math.random() * 9) + 1; // 1-9 (quotient)
+          }
           dan = multiplier * answer; // dividend (ensures whole number division)
           break;
 
@@ -65,8 +86,19 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
 
         case 'multiply':
         default:
-          dan = Math.floor(Math.random() * 8) + 2; // 2-9
-          multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          if (selectedDan !== null) {
+            // Specific dan selected
+            dan = selectedDan;
+            if (selectedOrder === 'sequential') {
+              multiplier = (i % 9) + 1; // 1-9 in order
+            } else {
+              multiplier = Math.floor(Math.random() * 9) + 1; // 1-9 random
+            }
+          } else {
+            // Random mode
+            dan = Math.floor(Math.random() * 19) + 2; // 2-20
+            multiplier = Math.floor(Math.random() * 9) + 1; // 1-9
+          }
           answer = dan * multiplier;
           break;
       }
@@ -80,7 +112,7 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
       });
     }
     return newProblems;
-  }, [mode]);
+  }, [mode, selectedDan, selectedOrder, selectedRange]);
 
   const startPractice = () => {
     const newProblems = generateProblems();
@@ -90,6 +122,7 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
     setTimeLeft(TIME_PER_PROBLEM);
     setIsActive(true);
     setShowResults(false);
+    setShowSelection(false);
     setStartTime(Date.now());
   };
 
@@ -235,6 +268,126 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
   }
 
   if (!isActive) {
+    if (showSelection) {
+      return (
+        <div className="bg-white rounded-lg shadow-md p-6 border-2 border-green-200">
+          <h2 className="text-4xl font-bold text-center mb-6 text-green-600">
+            연습 설정 (Practice Settings)
+          </h2>
+
+          {mode === 'multiply' && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-bold mb-4">몇 단을 연습하시겠습니까? (Which times table?)</h3>
+                <div className="grid grid-cols-5 gap-2 mb-4">
+                  {Array.from({ length: 19 }, (_, i) => i + 2).map((dan) => (
+                    <button
+                      key={dan}
+                      onClick={() => setSelectedDan(dan)}
+                      className={`py-2 px-4 rounded-lg font-bold transition-colors ${
+                        selectedDan === dan
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                      }`}
+                    >
+                      {dan}단
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setSelectedDan(null)}
+                  className={`py-2 px-4 rounded-lg font-bold transition-colors mr-2 ${
+                    selectedDan === null
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                  }`}
+                >
+                  랜덤 (Random)
+                </button>
+              </div>
+
+              {selectedDan !== null && (
+                <div>
+                  <h3 className="text-xl font-bold mb-4">연습 순서 (Practice Order)</h3>
+                  <div className="space-x-4">
+                    <button
+                      onClick={() => setSelectedOrder('sequential')}
+                      className={`py-2 px-4 rounded-lg font-bold transition-colors ${
+                        selectedOrder === 'sequential'
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                      }`}
+                    >
+                      순서대로 (1→9)
+                    </button>
+                    <button
+                      onClick={() => setSelectedOrder('random')}
+                      className={`py-2 px-4 rounded-lg font-bold transition-colors ${
+                        selectedOrder === 'random'
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                      }`}
+                    >
+                      랜덤 (Random)
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {(mode === 'plus' || mode === 'minus' || mode === 'divide') && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-bold mb-4">
+                  {mode === 'plus' && '덧셈 범위 선택 (Addition Range)'}
+                  {mode === 'minus' && '뺄셈 범위 선택 (Subtraction Range)'}
+                  {mode === 'divide' && '나눗셈 범위 선택 (Division Range)'}
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">최소값 (Min)</label>
+                    <input
+                      type="number"
+                      value={selectedRange?.min || ''}
+                      onChange={(e) => setSelectedRange(prev => ({
+                        min: parseInt(e.target.value) || 1,
+                        max: prev?.max || 10
+                      }))}
+                      className="w-full p-2 border rounded-lg"
+                      placeholder="1"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">최대값 (Max)</label>
+                    <input
+                      type="number"
+                      value={selectedRange?.max || ''}
+                      onChange={(e) => setSelectedRange(prev => ({
+                        min: prev?.min || 1,
+                        max: parseInt(e.target.value) || 10
+                      }))}
+                      className="w-full p-2 border rounded-lg"
+                      placeholder="10"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="text-center mt-8">
+            <button
+              onClick={startPractice}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-2xl transition-colors"
+            >
+              🚀 연습 시작 (Start Practice)
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-white rounded-lg shadow-md p-6 border-2 border-green-200">
         <h2 className="text-4xl font-bold text-center mb-6 text-green-600">
@@ -246,18 +399,24 @@ export default function PracticeMode({ mode = 'multiply' }: PracticeModeProps) {
             총 {TOTAL_PROBLEMS}문제, 각 문제당 {TIME_PER_PROBLEM}초
           </div>
           <div className="text-lg text-gray-500 mb-2">
-            {mode === 'plus' && '1~90 + 1~9 덧셈 연습'}
-            {mode === 'minus' && '10~99 - 1~9 뺄셈 연습'}
-            {mode === 'divide' && '나눗셈 연습 (구구단 범위 내)'}
+            {mode === 'plus' && `덧셈 연습: ${selectedRange ? `${selectedRange.min}~${selectedRange.max} + 1~9` : '1~90 + 1~9'}`}
+            {mode === 'minus' && `뺄셈 연습: ${selectedRange ? `${selectedRange.min}~${selectedRange.max} - 1~9` : '10~99 - 1~9'}`}
+            {mode === 'divide' && `나눗셈 연습: ${selectedRange ? `${selectedRange.min}~${selectedRange.max} 범위 내` : '구구단 범위 내'}`}
             {mode === 'multiply-extended' && '확장 구구단 2단~12단 연습'}
-            {mode === 'multiply' && '구구단 2단~9단 연습'}
+            {mode === 'multiply' && (selectedDan ? `${selectedDan}단 ${selectedOrder === 'sequential' ? '순서대로' : '랜덤'} 연습` : '구구단 2단~20단 랜덤 연습')}
           </div>
           <div className="text-lg text-gray-500">
             시간 내에 답을 입력하세요!
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center space-y-4">
+          <button
+            onClick={() => setShowSelection(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors mr-4"
+          >
+            🔄 설정 변경 (Change Settings)
+          </button>
           <button
             onClick={startPractice}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg text-2xl transition-colors"

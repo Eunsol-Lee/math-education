@@ -9,11 +9,11 @@ export default function PracticePageContent() {
 
   const getModeTitle = (mode: string) => {
     switch (mode) {
-      case 'multiply': return { korean: '계산왕 이은우의 구구단 도전!!', english: 'Math King Eunsol&apos;s Multiplication Challenge!! (2-9)' };
+      case 'multiply': return { korean: '계산왕 이은우의 구구단 도전!!', english: 'Math King Eunsol&apos;s Multiplication Challenge!! (2-20, Customizable)' };
       case 'multiply-extended': return { korean: '계산왕 이은우의 확장 구구단 도전!!', english: 'Math King Eunsol&apos;s Extended Multiplication Challenge!! (2-12)' };
-      case 'plus': return { korean: '계산왕 이은우의 덧셈 도전!!', english: 'Math King Eunsol&apos;s Addition Challenge!! (1-90 + 1-9)' };
-      case 'minus': return { korean: '계산왕 이은우의 뺄셈 도전!!', english: 'Math King Eunsol&apos;s Subtraction Challenge!! (10-99 - 1-9)' };
-      case 'divide': return { korean: '계산왕 이은우의 나눗셈 도전!!', english: 'Math King Eunsol&apos;s Division Challenge!!' };
+      case 'plus': return { korean: '계산왕 이은우의 덧셈 도전!!', english: 'Math King Eunsol&apos;s Addition Challenge!! (Customizable Range)' };
+      case 'minus': return { korean: '계산왕 이은우의 뺄셈 도전!!', english: 'Math King Eunsol&apos;s Subtraction Challenge!! (Customizable Range)' };
+      case 'divide': return { korean: '계산왕 이은우의 나눗셈 도전!!', english: 'Math King Eunsol&apos;s Division Challenge!! (Customizable Range)' };
       default: return { korean: '계산왕 이은우의 구구단 도전!!', english: 'Math King Eunsol&apos;s Multiplication Challenge!!' };
     }
   };
