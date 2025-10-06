@@ -17,7 +17,7 @@ interface Problem {
 
 
 const TOTAL_PROBLEMS = 10;
-const TIME_PER_PROBLEM = 30; // seconds
+const TIME_PER_PROBLEM = 60; // seconds
 
 export default function PracticeMode() {
   const [problems, setProblems] = useState<Problem[]>([]);
